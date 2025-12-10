@@ -1,0 +1,241 @@
+<!--
+Mix Express - Single-file Multi-page Website
+Single HTML file that behaves like a multi-page site using sections + JS routing.
+
+How to customize:
+ - Replace LOGO: update src in <img id="logo"> or replace assets/logo.png
+ - Replace hero image: assets/hero.jpg
+ - Edit contact details in the #contact section
+ - Services are in the <ul id="services-list"> list
+
+Files to keep together when hosting:
+ - index.html (this file)
+ - /assets/logo.png
+ - /assets/hero.jpg
+ - /assets/favicon.ico (optional)
+
+Hosting:
+ - Upload these files to any static web host (GitHub Pages, Netlify, FTP to your hosting provider).
+ - If using Google Sites, host this page somewhere (GitHub Pages/Netlify) and then Embed -> "Embed URL" with the page link. Google Sites does not allow full custom JS/HTML injection inside its native editor.
+
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mix Express - Shipping & Logistics</title>
+  <meta name="description" content="Mix Express - Domestic & international shipping, refrigerated transport, air & sea freight">
+  <link rel="icon" href="assets/favicon.ico">
+  <style>
+    /* Simple, modern CSS - change brand colors below */
+    :root{--accent:#f39c12;--dark:#162033;--muted:#6b7280;--bg:#f7f7fb}
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; color:var(--dark); background:var(--bg)}
+    header{background:#fff;border-bottom:1px solid #eee}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    .topbar{display:flex;align-items:center;justify-content:space-between}
+    #logo{height:56px}
+    nav ul{display:flex;gap:16px;list-style:none;margin:0;padding:0}
+    nav a{color:var(--dark); text-decoration:none; font-weight:600}
+    nav a.active{color:var(--accent)}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center;padding:48px 0}
+    .hero-left h1{font-size:44px;margin:0 0 12px}
+    .hero-left p{color:var(--muted);margin:0 0 20px}
+    .cta{display:inline-block;background:var(--accent);color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:700}
+    .hero-right{background:linear-gradient(180deg,#fff, #f4f6fb);border-radius:12px;padding:16px;text-align:center}
+    .hero-right img{max-width:100%;height:220px;object-fit:cover;border-radius:8px}
+
+    /* Sections */
+    section{padding:56px 0;background:transparent}
+    h2.section-title{font-size:28px;margin:0 0 14px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .card{background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(22,32,51,0.06)}
+    .card h3{margin:0 0 8px}
+    ul.tick{padding-left:18px;color:var(--muted)}
+
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 320px;gap:24px}
+    .contact-card{background:#fff;padding:20px;border-radius:10px}
+    .footer{padding:24px 0;color:var(--muted);text-align:center}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;}
+      .contact-grid{grid-template-columns:1fr}
+      #logo{height:46px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container topbar">
+      <div style="display:flex;align-items:center;gap:14px">
+        <img id="logo" src="assets/logo.png" alt="Mix Express logo">
+        <div style="line-height:1">
+          <div style="font-weight:800;color:var(--dark)">MIX EXPRESS</div>
+          <div style="font-size:12px;color:var(--muted)">Shipping & Logistics Services</div>
+        </div>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#home" data-route="home" class="nav-link active">Home</a></li>
+          <li><a href="#about" data-route="about" class="nav-link">About</a></li>
+          <li><a href="#services" data-route="services" class="nav-link">Services</a></li>
+          <li><a href="#contact" data-route="contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Home / Hero -->
+    <section id="home" data-page>
+      <div class="hero">
+        <div class="hero-left">
+          <h1>Reliable Shipping — From UAE to the world</h1>
+          <p>Domestic & international shipping, chilled transport (cold-chain) and complete logistics solutions tailored to your needs.</p>
+          <a class="cta" href="#contact" data-route="contact">Get a Quote</a>
+        </div>
+        <div class="hero-right">
+          <img src="assets/hero.jpg" alt="Refrigerated transport and logistics">
+          <div style="margin-top:12px;font-weight:700;color:var(--dark)">Refrigerated Transport · Air Freight · Sea Freight</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:18px;margin-top:18px;flex-wrap:wrap">
+        <div class="card" style="flex:1">
+          <h3>Fast Transit</h3>
+          <p class="tick">Optimized routes for timely delivery worldwide.</p>
+        </div>
+        <div class="card" style="flex:1">
+          <h3>Cold Chain Expertise</h3>
+          <p class="tick">Temperature-controlled handling for perishable goods.</p>
+        </div>
+        <div class="card" style="flex:1">
+          <h3>Customs Clearance</h3>
+          <p class="tick">Documentation and clearance handled end-to-end.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" data-page style="background:#fff;border-radius:12px;padding:32px;margin-top:18px">
+      <h2 class="section-title">About Mix Express</h2>
+      <p style="color:var(--muted)">Our company specializes in domestic and international delivery, including refrigerated transport (cold chain). We deliver safe, traceable shipments for businesses and individuals across multiple industries.</p>
+      <p style="color:var(--muted)">We aim to provide competitive rates and partner with businesses seeking reliable logistics solutions.</p>
+    </section>
+
+    <!-- Services -->
+    <section id="services" data-page>
+      <h2 class="section-title">Our Services</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Refrigerated Transport (Cold Chain)</h3>
+          <p class="tick">Temperature-controlled trucking, handling, and storage.</p>
+        </div>
+        <div class="card">
+          <h3>Air Freight</h3>
+          <p class="tick">Fast international air shipments with door-to-door options.</p>
+        </div>
+        <div class="card">
+          <h3>Sea Freight</h3>
+          <p class="tick">Full container or LCL solutions with competitive transit times.</p>
+        </div>
+        <div class="card">
+          <h3>Domestic Delivery</h3>
+          <p class="tick">Same-day and next-day options within the UAE.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <h3>Full list of services</h3>
+        <ul id="services-list" class="tick">
+          <li>Refrigerated Transport (Cold Chain)</li>
+          <li>Air Freight Shipping</li>
+          <li>Sea Freight Shipping</li>
+          <li>Domestic & International Shipping</li>
+          <li>Customs Clearance & Documentation</li>
+          <li>Warehousing & Distribution</li>
+          <li>COD & Insurance options</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" data-page style="background:#fff;border-radius:12px;padding:24px;margin-top:18px">
+      <h2 class="section-title">Contact Us</h2>
+      <div class="contact-grid">
+        <div>
+          <div class="contact-card">
+            <h3>Get a Quote</h3>
+            <p style="color:var(--muted)">Send us your shipment details and we will respond with best rates.</p>
+            <form id="quote-form">
+              <div style="margin-bottom:10px">
+                <label>Company / Name</label><br>
+                <input name="name" required style="width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #e6e6ef">
+              </div>
+              <div style="margin-bottom:10px">
+                <label>Email</label><br>
+                <input name="email" type="email" required style="width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #e6e6ef">
+              </div>
+              <div style="margin-bottom:10px">
+                <label>Details (origin, destination, weight, service)</label><br>
+                <textarea name="details" required style="width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #e6e6ef" rows="4"></textarea>
+              </div>
+              <button type="submit" class="cta">Request Quote</button>
+            </form>
+          </div>
+        </div>
+
+        <div>
+          <div class="contact-card">
+            <h3>Contact Info</h3>
+            <p style="margin:0 0 8px"><strong>Address:</strong> Dubai, UAE</p>
+            <p style="margin:0 0 8px"><strong>Phone / WhatsApp:</strong> +971 5X XXX XXXX</p>
+            <p style="margin:0 0 8px"><strong>Email:</strong> info@mixexpress.ae</p>
+            <div style="margin-top:12px">
+              <strong>Follow us</strong>
+              <div style="margin-top:8px;display:flex;gap:8px">
+                <a href="#">LinkedIn</a>
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">© <span id="year"></span> Mix Express. All rights reserved.</div>
+  </main>
+
+  <script>
+    // Basic client-side routing between sections
+    const links = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('[data-page]');
+    function routeTo(name){
+      pages.forEach(p=>{p.style.display = p.id === name ? 'block' : 'none'});
+      links.forEach(l=>{l.classList.toggle('active', l.dataset.route===name)});
+      location.hash = name;
+    }
+    // Initialize
+    const start = location.hash ? location.hash.replace('#','') : 'home';
+    document.getElementById('year').innerText = new Date().getFullYear();
+    routeTo(start);
+
+    links.forEach(l=>{ l.addEventListener('click', e=>{ e.preventDefault(); routeTo(l.dataset.route); }) });
+
+    // Simple form submission (replace with your backend endpoint or email service)
+    document.getElementById('quote-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Thank you! Your request has been received. We will contact you shortly.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>
